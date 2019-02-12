@@ -1,0 +1,81 @@
+<script>
+  jQuery(document).ready(function () {
+    console.log("Document is ready, now preparing Freshchat trackings...");
+    window.fcWidget.on("widget:opened", function (resp) {
+      console.log("widget:opened");
+      ga('send', {
+        hitType: 'event',
+        eventCategory: 'Freshchat widget',
+        eventAction: 'Freshchat widget: opened',
+        eventLabel: 'Freshchat widget: opened'
+      });
+    });
+    window.fcWidget.on("widget:closed", function (resp) {
+      console.log("widget:closed");
+      ga('send', {
+        hitType: 'event',
+        eventCategory: 'Freshchat widget',
+        eventAction: 'Freshchat widget: closed',
+        eventLabel: 'Freshchat widget: closed'
+      });
+    });
+    window.fcWidget.on('message:received', function (resp) {
+      console.log("message:received");
+      ga('send', {
+        hitType: 'event',
+        eventCategory: 'Freshchat widget',
+        eventAction: 'Freshchat message:received',
+        eventLabel: 'Freshchat message:received'
+      });
+    });
+    window.fcWidget.on('message:sent', function (resp) {
+      console.log("message:sent");
+      ga('send', {
+        hitType: 'event',
+        eventCategory: 'Freshchat widget',
+        eventAction: 'Freshchat message:sent',
+        eventLabel: 'Freshchat message:sent'
+      });
+    });
+    window.fcWidget.on('user:statechange', function (resp) {
+      console.log("user:statechange");
+      if (resp && resp.data && resp.data.userState === "created") {
+        console.log("user:created");
+        ga('send', {
+          hitType: 'event',
+          eventCategory: 'Freshchat widget',
+          eventAction: 'Freshchat user: created',
+          eventLabel: 'Freshchat user: created'
+        });
+      }
+      if (resp && resp.data && resp.data.userState === "loaded") {
+        console.log("user:loaded");
+        ga('send', {
+          hitType: 'event',
+          eventCategory: 'Freshchat widget',
+          eventAction: 'Freshchat user: loaded',
+          eventLabel: 'Freshchat user: loaded'
+        });
+      }
+      if (resp && resp.data && resp.data.userState === "identified") {
+        console.log("user:identified");
+        ga('send', {
+          hitType: 'event',
+          eventCategory: 'Freshchat widget',
+          eventAction: 'Freshchat user: identified',
+          eventLabel: 'Freshchat user: identified'
+        });
+      }
+      if (resp && resp.data && resp.data.userState === "restored") {
+        console.log("user:restored");
+        ga('send', {
+          hitType: 'event',
+          eventCategory: 'Freshchat widget',
+          eventAction: 'Freshchat user: restored',
+          eventLabel: 'Freshchat user: restored'
+        });
+      }
+    });
+    console.log("Freshchat trackings should have been prepared.");
+  });
+</script>
