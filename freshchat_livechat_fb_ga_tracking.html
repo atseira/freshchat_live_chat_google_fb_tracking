@@ -1,0 +1,111 @@
+<script>
+  jQuery(document).ready(function () {
+    function track_event(args) {
+      if (typeof gtag !== 'undefined') {
+        gtag('event', args.ga_action, {
+          'event_category': args.ga_fb_category,
+          'event_label': args.ga_fb_name
+        });
+      }
+      if (typeof ga !== 'undefined') {
+        ga('send', {
+          hitType: 'event',
+          eventCategory: args.ga_fb_category,
+          eventAction: args.ga_action,
+          eventLabel: args.ga_fb_name
+        });
+      }
+      if (typeof fbq !== 'undefined') {
+        fbq(args.fb_track, args.fb_event, {
+          content_category: args.ga_fb_category,
+          content_name: args.ga_fb_name
+        })
+      }
+    }
+    console.log("Document is ready, now preparing Freshchat trackings...");
+    window.fcWidget.on("widget:opened", function (resp) {
+      console.log("widget:opened");
+      track_event({
+        ga_action: 'Freshchat widget: opened',
+        fb_track: 'trackCustom',
+        fb_event: 'FreshChatEvent',
+        ga_fb_category: 'Freshchat widget',
+        ga_fb_name: 'Freshchat widget: opened'
+      });
+    });
+    window.fcWidget.on("widget:closed", function (resp) {
+      console.log("widget:closed");
+      track_event({
+        ga_action: 'Freshchat widget: closed',
+        fb_track: 'trackCustom',
+        fb_event: 'FreshChatEvent',
+        ga_fb_category: 'Freshchat widget',
+        ga_fb_name: 'Freshchat widget: closed',
+      });
+    });
+    window.fcWidget.on('message:received', function (resp) {
+      console.log("message:received");
+      track_event({
+        ga_action: 'Freshchat message: received',
+        fb_track: 'trackCustom',
+        fb_event: 'FreshChatEvent',
+        ga_fb_category: 'Freshchat widget',
+        ga_fb_name: 'Freshchat message: received',
+      });
+    });
+    window.fcWidget.on('message:sent', function (resp) {
+      console.log("message:sent");
+      track_event({
+        ga_action: 'Freshchat message: sent',
+        fb_track: 'trackCustom',
+        fb_event: 'FreshChatEvent',
+        ga_fb_category: 'Freshchat widget',
+        ga_fb_name: 'Freshchat message: sent',
+      });
+    });
+    window.fcWidget.on('user:statechange', function (resp) {
+      console.log("user:statechange");
+      if (resp && resp.data && resp.data.userState === "created") {
+        console.log("user:created");
+        track_event({
+          ga_action: 'Freshchat user: created',
+          fb_track: 'track',
+          fb_event: 'Lead',
+          ga_fb_category: 'Freshchat widget',
+          ga_fb_name: 'Freshchat user: created',
+        });
+      }
+      if (resp && resp.data && resp.data.userState === "loaded") {
+        console.log("user:loaded");
+        track_event({
+          ga_action: 'Freshchat user: loaded',
+          fb_track: 'trackCustom',
+          fb_event: 'FreshChatEvent',
+          ga_fb_category: 'Freshchat widget',
+          ga_fb_name: 'Freshchat user: loaded',
+        });
+      }
+      if (resp && resp.data && resp.data.userState === "identified") {
+        console.log("user:identified");
+        track_event({
+          ga_action: 'Freshchat user: identified',
+          fb_track: 'trackCustom',
+          fb_event: 'FreshChatEvent',
+          ga_fb_category: 'Freshchat widget',
+          ga_fb_name: 'Freshchat user: identified',
+        });
+      }
+      if (resp && resp.data && resp.data.userState === "restored") {
+        console.log("user:restored");
+        track_event({
+          ga_action: 'Freshchat user: restored',
+          fb_track: 'trackCustom',
+          fb_event: 'FreshChatEvent',
+          ga_fb_category: 'Freshchat widget',
+          ga_fb_name: 'Freshchat user: restored',
+        });
+      }
+    });
+    console.log("Freshchat trackings should have been prepared.");
+  });
+</script>
